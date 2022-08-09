@@ -28,7 +28,7 @@ for (let x = 0; x < WIDTH; x += CELL_SIZE){
 
     for (let y = 0; y < HEIGHT; y += CELL_SIZE){
         // id, xpos, ypos, fillColour
-        row.push([x + y, x, y, COLOUR["EMPTY_CELL"]])
+        row.push({id: x + y, xpos: x, ypos: y, colour: COLOUR["EMPTY_CELL"]})
     }
 
     cells.push(row)
@@ -52,11 +52,11 @@ function drawBoard(){
 
             let cell = cells[x][y]
 
-            ctx.fillStyle = cell[3]
-            ctx.fillRect(cell[1], cell[2], CELL_SIZE, CELL_SIZE)
+            ctx.fillStyle = cell.colour
+            ctx.fillRect(cell.xpos, cell.ypos, CELL_SIZE, CELL_SIZE)
 
             ctx.strokeStyle = COLOUR["GRID_COLOUR"]
-            ctx.strokeRect(cell[1], cell[2], CELL_SIZE, CELL_SIZE)
+            ctx.strokeRect(cell.xpos, cell.ypos, CELL_SIZE, CELL_SIZE)
 
 
         }
@@ -74,25 +74,25 @@ function changeCell(locationx, locationy){
 
 
                 if (currentSelect == COLOUR["START"] && startPoints > 0){
-                    cells[x][y][3] = currentSelect
+                    cells[x][y].colour = currentSelect
                     startPoints --
                 }
                 else if (currentSelect == COLOUR["END"] && endPoints > 0){
-                    cells[x][y][3] = currentSelect
+                    cells[x][y].colour = currentSelect
                     endPoints --
                 }
                 else if (currentSelect == COLOUR["WALL"]){
-                    if (cells[x][y][3] != COLOUR["START"] && cells[x][y][3] != COLOUR["END"]){
-                        cells[x][y][3] = currentSelect
+                    if (cells[x][y].colour != COLOUR["START"] && cells[x][y][3] != COLOUR["END"]){
+                        cells[x][y].colour = currentSelect
                     }
                 }
                 else if (currentSelect == COLOUR["EMPTY_CELL"]){
-                    if (cells[x][y][3] == COLOUR["START"]){
+                    if (cells[x][y].colour == COLOUR["START"]){
                         startPoints ++
-                    } else if (cells[x][y][3] == COLOUR["END"]){
+                    } else if (cells[x][y].colour == COLOUR["END"]){
                         endPoints ++
                     }
-                    cells[x][y][3] = currentSelect
+                    cells[x][y].colour = currentSelect
                 }
 
             }
@@ -118,6 +118,7 @@ function erase(){
 
 function runSolution(){
     console.log("Running Solution")
+    console.log(cells)
 }
 
 function main(){
